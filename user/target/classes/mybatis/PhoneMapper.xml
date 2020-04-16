@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.test.mapper.PhoneMapper" >
+ 
+  <!-- <cache /> -->
+  <resultMap id="BaseResultMap" type="cn.test.entity.Phone" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getAll"  resultMap="BaseResultMap"  >
+    select * from phone
+  </select>
+  
+  <select id="selectAll"  resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select * from phone where 1=1
+    <if test="ids != null and ids.size() >0">
+    	and id in
+    	<!-- collection的值为map的key -->
+    	<foreach collection="ids" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    	
+    </if>
+    <!-- brand的值为map的key -->
+    <if test="brand != null">
+    	and brand = #{brand}
+    </if>
+  </select>
+  <select id="select"  resultMap="BaseResultMap" parameterType="cn.test.entity.Phone" >
+    select * from phone where 1=1
+    <if test="id != null">
+    	and id = #{id}
+    </if>
+    <if test="brand != null">
+    	and brand like concat('%',#{brand},'%')
+    </if>
+  </select>
+  
+  <insert id="insertList" parameterType="java.util.List">
+  	insert into phone 
+  	(id,color,brand,price) values
+  	<!-- collection -->
+  	<foreach collection="list" item="phone" index = "index"  separator="," >
+  	(
+  		#{phone.id},
+  		#{phone.color},
+  		#{phone.brand},
+  		#{phone.price}
+  	)
+    </foreach>
+  </insert>
+  
+  <select id="count" resultType="java.util.HashMap">
+  	select count(*) as totnum from phone 
+  </select>
+</mapper>

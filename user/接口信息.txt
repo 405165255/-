@@ -1,0 +1,14 @@
+http://localhost:8081/users/create
+
+username: "admin", name: "zs", password: "123456", repeat_password: "123456", phone: 13222226666,is_active: true,email: "123@123.com"
+
+
+{"username": "admin", "name": "zs", "password": "123456", "repeat_password": "123456", "phone": 13222226666,"is_active": true,"email": "123@123.com"}
+
+
+123
+123456
+13222226666
+123@123.com
+
+springbootpage
